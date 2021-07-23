@@ -4,7 +4,7 @@ MOOG is a radiative transfer code for stellar abundances written by Chris Sneden
 
 MOOGIE by I. Escala (Carnegie, 2018). Utilized to generate the ATLAS9+MOOG based grid of synthethic spectra in Escala et al. 2019: https://ui.adsabs.harvard.edu/abs/2019ApJ...878...42E/abstract
 
-Note that MOOGIE has been extensively tested, such that it produces the same results for a single-spectrum synthesis as compared to MOOG17SCAT.
+Note that MOOGIE has been extensively tested, such that it produces the same results for a single-spectrum synthesis as compared to the unmodified version of MOOG17SCAT.
 
 Files ending in "enk" are directly taken from EMOOG (Evan N. Kirby, Caltech, 2008 onward), whereas files ending with "ba" are directly taken from MOOGBA (Gina E. Duggan, IPAC, 2018). Files containing "ie" have modifications introduced in MOOGIE. Absent the file endings, the files are directly from MOOG17SCAT. All files unnecessary for the specified synthesis have been purged from MOOGIE.
 
