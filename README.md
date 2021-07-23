@@ -29,7 +29,7 @@ These commands are explicitly outlined in the pywrap.sh bash file. This should g
 
 * from moogie import moogie
 * moogie(teff, logg, feh, alphafe, rank, synth_run, replace)
-* where teff, logg, feh, alphafe (float) is the spectrum you would like to synthesize, rank is the processor rank -- if not using MOOGIEPY in combination with MPI, rank = 0, synth_run is a string corresponding to the directory in which MOOG can find the relevant files (rank directories containing linelists, Barklem.dat information, etc.), replace is a Boolean object, where if replace = 0 files are NOT overwritten if they already exist
+* where teff, logg, feh, alphafe (float) are the parameters for the spectrum you would like to synthesize, rank is the processor rank -- if not using MOOGIEPY in combination with MPI, rank = 0, synth_run is a string corresponding to the directory in which MOOG can find the relevant files (rank directories containing linelists, Barklem.dat information, etc.), replace is a Boolean object, where if replace = 0 files are NOT overwritten if they already exist
 
 **PURE FORTRAN VERSION**
 
