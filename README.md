@@ -25,15 +25,11 @@ Then execute the command, "f2py -m moogie -h moogie.pyf *.f"
 
 Followed by "f2py -c moogie.pyf *.o"
 
-These commands are explicitly outlined in the pywrap.sh bash file. This should generate a file moogie.so, which you can use as follows:
+These commands are explicitly outlined in the pywrap.sh bash file. This should generate a file moogie.so, which you can use as follows (see also the file moogie.py for example usage):
 
-from moogie import moogie
-moogie(teff, logg, feh, alphafe, rank, synth_run, replace)
-Where teff, logg, feh, alphafe (float) is the spectrum you would like to synthesize
-rank is the processor rank -- if not using MOOGIEPY in combination with MPI, rank = 0
-synth_run is a string corresponding to the directory in which MOOG can find the relevant files
-(rank directories containing linelists, Barklem.dat information, etc.)
-replace is a Boolean object, where if replace = 0 files are NOT overwritten if they already exist
+* from moogie import moogie
+* moogie(teff, logg, feh, alphafe, rank, synth_run, replace)
+* where teff, logg, feh, alphafe (float) is the spectrum you would like to synthesize, rank is the processor rank -- if not using MOOGIEPY in combination with MPI, rank = 0, synth_run is a string corresponding to the directory in which MOOG can find the relevant files (rank directories containing linelists, Barklem.dat information, etc.), replace is a Boolean object, where if replace = 0 files are NOT overwritten if they already exist
 
 **PURE FORTRAN VERSION**
 
