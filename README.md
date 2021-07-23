@@ -8,9 +8,9 @@ Note that MOOGIE has been extensively tested, such that it produces the same res
 
 Files ending in "enk" are directly taken from EMOOG (Evan N. Kirby, Caltech, 2008 onward), whereas files ending with "ba" are directly taken from MOOGBA (Gina E. Duggan, IPAC, 2018). Files containing "ie" have modifications introduced in MOOGIE. Absent the file endings, the files are directly from MOOG17SCAT. All files unnecessary for the specified synthesis have been purged from MOOGIE.
 
-# SET UP INSTRUCTIONS #
+# Set Up Instructions #
 
-**Python-wrapped version**
+**PYTHON-WRAPPED VERSION**
 
 The following instructions describe how to wrap MOOGIE in Python on your own system to create a Python function (MOOGIEPY). Note that MOOGIEPY does not contain MPI internal to MOOG -- to parallelize MOOGIEPY, MPI must be called externally using Python. In addition, looping over the processors must be done externally. The files Calculate_nloop.f and Calculate_params.f are intended to assit with the external looping.
 
@@ -19,10 +19,11 @@ To wrap MOOGIE in Python, use the F2PY module: https://docs.scipy.org/doc/numpy-
 Requires GCC verison > 6.0
 Note that you must edit the paths directly within Moogie_py.f to match that of your system
 To wrap MOOGIE, you must first compile it using the command make -f Makefile.pywrap.
-Then execute the command, f2py -m moogie -h moogie.pyf *.f
-Followed by f2py -c moogie.pyf *.o
+Then execute the command, "f2py -m moogie -h moogie.pyf *.f"
 
-This should generate a file moogie.so, which you can use in python in the following fashion:
+Followed by "f2py -c moogie.pyf *.o"
+
+These commands are explicitly outlined in the pywrap.sh bash file. This should generate a file moogie.so, which you can use as follows:
 
 from moogie import moogie
 moogie(teff, logg, feh, alphafe, rank, synth_run, replace)
@@ -32,7 +33,7 @@ synth_run is a string corresponding to the directory in which MOOG can find the 
 (rank directories containing linelists, Barklem.dat information, etc.)
 replace is a Boolean object, where if replace = 0 files are NOT overwritten if they already exist
 
-**Pure Fortan version**
+**PURE FORTRAN VERSION**
 
 Ensure that the paths in Moogie.f point to the locations of your atmospheric models and your desired output directories.
 
