@@ -6,6 +6,8 @@ MOOGIE by I. Escala (Carnegie, 2018). Utilized to generate the ATLAS9+MOOG based
 
 Note that MOOGIE has been extensively tested, such that it produces the same results for a single-spectrum synthesis as compared to the unmodified version of MOOG17SCAT.
 
+Note that the MOOGIE files are separated into different folders for organizational purposes in this repository, but when running either the pure Fortran version or wrapping your own version of MOOGIE, you must have all the base MOOG files (in the "moog17scat" folder), your desired Makefile ("makefiles" folder), and desired Fortran wrapper ("fortran-wrapper" folder) in the same directory (along with any files in the "python" folder). Fortran and Python-wrapped-Fortran executables are present in the main directory.
+
 Files ending in "enk" are directly taken from EMOOG (Evan N. Kirby, Caltech, 2008 onward), whereas files ending with "ba" are directly taken from MOOGBA (Gina E. Duggan, IPAC, 2018). Files containing "ie" have modifications introduced in MOOGIE. Absent the file endings, the files are directly from MOOG17SCAT. All files unnecessary for the specified synthesis have been purged from MOOGIE.
 
 # Set Up Instructions #
