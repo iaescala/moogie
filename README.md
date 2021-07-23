@@ -1,62 +1,60 @@
-# README #
+Python-wrapped, stripped-down, modified version of MOOG17SCAT (Alex P. Ji, U. Chicago, Aug 2017 version with scattering) designed for generation of thousands of synthetic spectra simulatenously (with parallel processing). The improved treatment of scattering is important for the accurate computation of abundances from blue absorption features generated in metal-poor stellar atmospheres.
 
-* MOOGIE
-* Version 0.0 
-* November 22 2017
-* I. Escala (iescala@caltech.edu)
+MOOG is a radiative transfer code for stellar abundances written by Chris Sneden (http://www.as.utexas.edu/~chris/moog.html).
 
-* MOOGIE is a modification of MOOG17SCAT (MOOG August 2017 verison with scattering).
-* It includes a proper treatment of scattering, which is important for accurately computing
-* abundances of blue lines in metal-poor stars.
+MOOGIE by I. Escala (Carnegie, 2018). Utilized to generate the ATLAS9+MOOG based grid of synthethic spectra in Escala et al. 2019: https://ui.adsabs.harvard.edu/abs/2019ApJ...878...42E/abstract
 
-* MOOG17SCAT is a modification of MOOG by Alex Ji
-* MOOGIE was modified by I. Escala, based on G. Duggan's and E. Kirby's modifications of
-* MOOG to enable the computation of thousands of spectra simultaneously by parallezing MOOG
+Note that MOOGIE has been extensively tested, such that it produces the same results for a single-spectrum synthesis as compared to MOOG17SCAT.
 
-* The introduced modifications enable synthesizing a grid of spectra with parameters including
-* effective temperature, surface gravity, metallicity, and alpha abundance of the model atmosphere.
-* In particular, MOOGIE is intended to synthesize the blue region of the spectrum, 4100 - 6300 A.
+Files ending in "enk" are directly taken from EMOOG (Evan N. Kirby, Caltech, 2008 onward), whereas files ending with "ba" are directly taken from MOOGBA (Gina E. Duggan, IPAC, 2018). Files containing "ie" have modifications introduced in MOOGIE. Absent the file endings, the files are directly from MOOG17SCAT. All files unnecessary for the specified synthesis have been purged from MOOGIE.
 
-* Files ending in "enk" are directly taken from EMOOG (E. Kirby), whereas files ending with "ba" 
-* are directly taken from MOOGBA (G. Duggan). Files containing "ie" have modifications introduced 
-* in MOOGIE. Absent the file endings, the files are directly from MOOG17SCAT. All files unnecessary 
-* for the specified synthesis have been purged from MOOGIE. 
+# SET UP INSTRUCTIONS #
 
-* MOOGIE has been extensively tested, such that it produces the same results for a single-spectrum
-* synthesis as compared to MOOG17SCAT.
+**Python-wrapped version**
 
-* MOOG is a radiative transfer code for stellar abundances written by Chris Sneden.
-* http://www.as.utexas.edu/~chris/moog.html
+The following instructions describe how to wrap MOOGIE in Python on your own system to create a Python function (MOOGIEPY). Note that MOOGIEPY does not contain MPI internal to MOOG -- to parallelize MOOGIEPY, MPI must be called externally using Python. In addition, looping over the processors must be done externally. The files Calculate_nloop.f and Calculate_params.f are intended to assit with the external looping.
 
-### SETUP ###
+To wrap MOOGIE in Python, use the F2PY module: https://docs.scipy.org/doc/numpy-dev/f2py/
 
-* Download MOOGIE by obtaining it from this repository.
+Requires GCC verison > 6.0
+Note that you must edit the paths directly within Moogie_py.f to match that of your system
+To wrap MOOGIE, you must first compile it using the command make -f Makefile.pywrap.
+Then execute the command, f2py -m moogie -h moogie.pyf *.f
+Followed by f2py -c moogie.pyf *.o
 
-* Ensure that the paths in Moogie.f point to the locations of your atmospheric models
-* and your desired output directories. 
-* NOTE: MOOGIE is intended to work with KURUCZ type atmospheric models
+This should generate a file moogie.so, which you can use in python in the following fashion:
 
-* To compile MOOGIE, execute the following command.
-* NOTE: MOOGIE is intended specifically for Linux machines. 
-* make -f Makefile
+from moogie import moogie
+moogie(teff, logg, feh, alphafe, rank, synth_run, replace)
+Where teff, logg, feh, alphafe (float) is the spectrum you would like to synthesize
+rank is the processor rank -- if not using MOOGIEPY in combination with MPI, rank = 0
+synth_run is a string corresponding to the directory in which MOOG can find the relevant files
+(rank directories containing linelists, Barklem.dat information, etc.)
+replace is a Boolean object, where if replace = 0 files are NOT overwritten if they already exist
 
-* To execute tests in MOOGIE, you must change the parameters in Moogie.f
-* To synthesize a single spectrum, make sure that test = .true.
-* You can change the test parameters at the bottom of the file in Moogie.f
-* Note that changing the parameters means that you must recompile MOOGIE
-* make -f Makefile clean
-* make -f Makefile
+**Pure Fortan version**
 
-* To run MOOGIE, either copy the executable to the relevant directory,
-* or point to it within the directory by writing its full path
-* e.g., /home/iescala/moogie/MOOGIE
+Ensure that the paths in Moogie.f point to the locations of your atmospheric models and your desired output directories.
 
-* Moogie.f is for running standard synthesis of single or multiple spectra
-* Moogiempi.f is intended for running on a HPC system using MPI
+NOTE: MOOGIE is intended to work with KURUCZ type atmospheric models
 
-* To use Moogiempi.f, instead compile MOOGIE using the makefile Makefile.mpi
-* and edit the file Moogiempi.f accordingly (similar to Moogie.f)
-* To execute the MPI verison of MOOGIE, you must submit a PBS job
-* Ensure that you load the relevant modules, such as openmpi
-* To execute, include the command "mpirun ./MOOGIE" in the body of your PBS file, where
-* MOOGIE is contained in the relevant directory
+To compile MOOGIE, execute the following command. NOTE: MOOGIE is intended specifically for Linux machines.
+
+make -f Makefile
+
+To execute tests in MOOGIE, you must change the parameters in Moogie.f
+
+To synthesize a single spectrum, make sure that test = .true.
+You can change the test parameters at the bottom of the file in Moogie.f
+Note that changing the parameters means that you must recompile MOOGIE
+make -f Makefile clean
+make -f Makefile
+
+To run MOOGIE, either copy the executable to the relevant directory, or point to it within the directory by writing its full path, e.g., /home/iescala/moogie/MOOGIE
+
+Moogie.f is for running standard synthesis of single or multiple spectra
+
+Moogiempi.f is intended for running on a HPC system using MPI
+Moogie_py.f is for wrapping MOOGIE in Python
+
+To use Moogiempi.f, instead compile MOOGIE using the makefile Makefile.mpi and edit the file Moogiempi.f accordingly (similar to Moogie.f). To execute, include the command "mpirun ./MOOGIE" in the body of your job submission file, where MOOGIE is contained in the relevant directory.
