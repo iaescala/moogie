@@ -57,3 +57,7 @@ Moogiempi.f is intended for running on a HPC system using MPI
 Moogie_py.f is for wrapping MOOGIE in Python
 
 To use Moogiempi.f, instead compile MOOGIE using the makefile Makefile.mpi and edit the file Moogiempi.f accordingly (similar to Moogie.f). To execute, include the command "mpirun ./MOOGIE" in the body of your job submission file, where MOOGIE is contained in the relevant directory.
+
+# Citation #
+
+Please link to this repository, credit A. P. Ji for MOOG17SCAT, and cite Escala et al. 2019
