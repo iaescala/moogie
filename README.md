@@ -1,3 +1,5 @@
+**Update Jun 7 2023** Issues encountered wrapping MOOG using Python 3 version of f2py. To circumvent this, currently recommended to create a Python 2.7 environment in conda in which to wrap the code and execute MOOGIE.
+
 Python-wrapped, stripped-down, modified version of MOOG17SCAT (Alex P. Ji, U. Chicago, Aug 2017 version with scattering; https://github.com/alexji/moog17scat) designed for generation of thousands of synthetic spectra simulatenously (with parallel processing). The improved treatment of scattering is important for the accurate computation of abundances from blue absorption features generated in metal-poor stellar atmospheres.
 
 MOOG is a radiative transfer code for stellar abundances written by Chris Sneden (http://www.as.utexas.edu/~chris/moog.html).
